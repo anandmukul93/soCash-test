@@ -2,6 +2,7 @@
 custom poker game
 
 to Run : 
+required - JAVA 8
 
 ./gradlew clean build run
 
