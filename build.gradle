@@ -4,3 +4,32 @@
  * This is a general purpose Gradle build.
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds
  */
+
+plugins{
+    id 'java'
+    id 'application'
+}
+
+
+group "com.socash.test"
+version "1.0"
+
+application {
+mainClass = "com.socash.test.simulator.GameRunner"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies{
+    testCompile "junit:junit:4.12"
+}
+
+
+//task runJar(type: JavaExec) {
+//    classpath = files('build/libs/soCash-1.0.jar')
+//    classpath += sourceSets.main.runtimeClasspath
+//    mainClass = 'com.socash.test.simulator.GameRunner'
+//}

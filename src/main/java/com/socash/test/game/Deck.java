@@ -1,3 +1,8 @@
+package com.socash.test.game;
+
+import com.socash.test.exception.CardNotFoundException;
+import com.socash.test.game.CardValueStrategy.Value;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,13 +48,13 @@ public class Deck {
     }
 
     //takes out the top card
-    public Card getTopCard() throws Exception{
+    public Card drawCard() throws CardNotFoundException{
         if (!isEmpty()){
             Card card = cards.get(0);
             start ++;
             return card;
         }
-        throw new Exception("Deck Empty!! Cannot get Card from Deck");
+        throw new CardNotFoundException("Deck Empty!! Cannot get Card from Deck");
     }
 
     public Boolean isEmpty(){
@@ -83,14 +88,36 @@ public class Deck {
             TEN,
             JACK,
             QUEEN,
-            KING
+            KING;
+
+            public Integer value(){
+                return this.ordinal() + 1;
+            }
+
+            public String toString(){
+                return value().toString();
+            }
         }
 
         public enum Suite {
-            HEARTS,
-            SPADES,
-            CLUBS,
-            DIAMONDS
+            HEARTS("H"),
+            SPADES("S"),
+            CLUBS("C"),
+            DIAMONDS("D");
+
+            private String notation;
+
+            Suite(String notation) {
+                this.notation = notation;
+            }
+
+            public String toString(){
+                return this.notation;
+            }
+        }
+
+        public <T extends Comparable<T>> Value<T> valueWithStrategy(CardValueStrategy<T> strategy){
+            return strategy.getValue(this);
         }
     }
 }
