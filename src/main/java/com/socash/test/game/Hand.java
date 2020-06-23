@@ -20,8 +20,8 @@ public class Hand {
         totalCards++;
     }
 
-    public void addCards(List<Card> cards) {
-        for (Card card : cards) {
+    public void addCards(List<Card> cardList) {
+        for (Card card : cardList) {
             cards.add(card);
             totalCards++;
         }

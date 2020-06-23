@@ -10,7 +10,7 @@ public abstract class GameRunner {
 
     public abstract void runGame(List<Player> playerList);
 
-    public static void main(){
+    public static void main(String[] args){
         Player player1 = new Player("P1", "xyz");
         Player player2 = new Player("P2", "abc");
         Player player3 = new Player("P3", "pqr");

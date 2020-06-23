@@ -95,7 +95,7 @@ public class CardGameHand extends Hand implements Comparable<CardGameHand>{
                 List<Card> cardsInHand = hand.showHand();
                 Boolean onlyTwoSame = (cardsInHand.get(0).getRank() == cardsInHand.get(1).getRank() && cardsInHand.get(0).getRank() != cardsInHand.get(2).getRank()) ||
                         (cardsInHand.get(1).getRank() == cardsInHand.get(2).getRank() && cardsInHand.get(1).getRank() != cardsInHand.get(0).getRank()) ||
-                        (cardsInHand.get(3).getRank() == cardsInHand.get(0).getRank() && cardsInHand.get(3).getRank() != cardsInHand.get(1).getRank());
+                        (cardsInHand.get(2).getRank() == cardsInHand.get(0).getRank() && cardsInHand.get(2).getRank() != cardsInHand.get(1).getRank());
 
                 return areThreeCards && onlyTwoSame;
             }

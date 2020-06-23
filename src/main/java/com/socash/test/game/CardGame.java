@@ -2,6 +2,7 @@ package com.socash.test.game;
 
 import com.socash.test.exception.CardNotFoundException;
 import com.socash.test.exception.DuplicatePlayerException;
+import com.socash.test.game.Deck.Card;
 import com.socash.test.ruleset.CardGameRuleSet;
 
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class CardGame implements Game<CardGameContext, Player, String>{
         LOGGER.info("Players: \n");
         int count = 1;
         for (Player player: cardGameContext.getPlayersList()) {
-            LOGGER.info(String.format("ID : {}, Name : {}", player.getId(), player.getName()));
+            LOGGER.info(String.format("ID : %s, Name : %s", player.getId(), player.getName()));
             count++;
         }
     }
@@ -57,15 +58,14 @@ public class CardGame implements Game<CardGameContext, Player, String>{
 
     public void drawCard(int n) throws CardNotFoundException {
         int activePlayersCount = activePlayerHands.size();
-        Deck deck = cardGameContext.getDeck();
         while(n > 0) {
                 for (Entry<String, CardGameHand> playerHand : activePlayerHands.entrySet()) {
-                    playerHand.getValue().addCard(deck.drawCard());
+                    playerHand.getValue().addCard(getCard());
                 }
             inGame(()-> {
                 StringBuilder builder = new StringBuilder();
                 for(Entry<String, CardGameHand> playerHand : activePlayerHands.entrySet()) {
-                    builder.append(String.format("Player : {} and Cards : {} ", playerHand.getKey(), playerHand.toString()));
+                    builder.append(String.format("Player : %s and Cards : %s \n", playerHand.getKey(), playerHand.getValue().toString()));
                 }
                 return builder.toString();
             });
@@ -73,6 +73,13 @@ public class CardGame implements Game<CardGameContext, Player, String>{
         }
     }
 
+    public Card getCard()throws CardNotFoundException {
+        if (cardGameContext.getCardSupplier() != null)
+            return cardGameContext.getCardSupplier().get();
+
+        Deck deck = cardGameContext.getDeck();
+        return deck.drawCard();
+    }
     @Override
     public List<Player> getParticipants() {
         return cardGameContext.getPlayersList();

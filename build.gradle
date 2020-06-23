@@ -26,10 +26,3 @@ repositories {
 dependencies{
     testCompile "junit:junit:4.12"
 }
-
-
-//task runJar(type: JavaExec) {
-//    classpath = files('build/libs/soCash-1.0.jar')
-//    classpath += sourceSets.main.runtimeClasspath
-//    mainClass = 'com.socash.test.simulator.GameRunner'
-//}
