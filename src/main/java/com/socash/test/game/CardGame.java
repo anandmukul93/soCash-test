@@ -34,7 +34,7 @@ public class CardGame implements Game<CardGameContext, Player, String>{
     @Override
     public void preGame(Supplier<String> messageSupplier) {
         //could have been save to DB com.socash.test.game details
-        cardGameContext.getDeck().shuffle();
+        cardGameContext.getDealer().initialize();
         LOGGER.info("Players: \n");
         int count = 1;
         for (Player player: cardGameContext.getPlayersList()) {
@@ -58,9 +58,10 @@ public class CardGame implements Game<CardGameContext, Player, String>{
 
     public void drawCard(int n) throws CardNotFoundException {
         int activePlayersCount = activePlayerHands.size();
+        CardGameDealer cardGameDealer  = cardGameContext.getDealer();
         while(n > 0) {
                 for (Entry<String, CardGameHand> playerHand : activePlayerHands.entrySet()) {
-                    playerHand.getValue().addCard(getCard());
+                    playerHand.getValue().addCard(cardGameDealer.getCard());
                 }
             inGame(()-> {
                 StringBuilder builder = new StringBuilder();
@@ -71,14 +72,6 @@ public class CardGame implements Game<CardGameContext, Player, String>{
             });
             n --;
         }
-    }
-
-    public Card getCard()throws CardNotFoundException {
-        if (cardGameContext.getCardSupplier() != null)
-            return cardGameContext.getCardSupplier().get();
-
-        Deck deck = cardGameContext.getDeck();
-        return deck.drawCard();
     }
     @Override
     public List<Player> getParticipants() {

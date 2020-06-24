@@ -1,27 +1,23 @@
 package com.socash.test.game;
 
 import com.socash.test.exception.DuplicatePlayerException;
-import com.socash.test.game.Deck.Card;
 import com.socash.test.ruleset.CardGameRuleSet;
 
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.function.Supplier;
 
 //holds overall game context like players, ruleset, other permanent post game states as well.
 public class CardGameContext extends GameContext {
     private CardGameRuleSet cardGameRuleSet;
     private List<Player> playersList;
     private Map<String, SimpleEntry<Player, CardGameHand>> playerHand;
-    private Deck deck;
-    private Supplier<Card> cardSupplier;
+    private CardGameDealer dealer;
 
-    public CardGameContext(GameConfigType configType, CardGameRuleSet cardGameRuleSet, Supplier<Card> cardSupplier) {
+    public CardGameContext(GameConfigType configType, CardGameRuleSet cardGameRuleSet, CardGameDealer cardSupplier) {
         super(configType);
         this.cardGameRuleSet = cardGameRuleSet;
-        this.cardSupplier = cardSupplier;
+        this.dealer = new CardGameDealer(Deck.newDeck());
         this.playersList = new ArrayList<>();
-        this.deck = Deck.newDeck();
         this.playerHand = new HashMap<>();
     }
 
@@ -39,10 +35,6 @@ public class CardGameContext extends GameContext {
 
     public List<Player> getPlayersList() {
         return this.playersList;
-    }
-
-    public Deck getDeck() {
-        return this.deck;
     }
 
     public void storePlayerHand(String id, CardGameHand hand) {
@@ -65,7 +57,7 @@ public class CardGameContext extends GameContext {
         return playersList.stream().filter((player) -> player.getId().equalsIgnoreCase(id)).findFirst().get();
     }
 
-    public Supplier<Card> getCardSupplier() {
-        return this.cardSupplier;
+    public CardGameDealer getDealer() {
+        return this.dealer;
     }
 }
